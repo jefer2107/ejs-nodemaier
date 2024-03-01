@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EjsNodemailer = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const ImageService_1 = require("./ImageService");
+const EjsService_1 = require("./EjsService");
 class EjsNodemailer {
     static createTransport(options) {
         try {
@@ -19,9 +20,9 @@ class EjsNodemailer {
     static async sendMail(options, mailData) {
         try {
             let newMailData;
-            const { type, content, attachments, text, alternatives } = mailData.body;
+            const { type, content, attachments, text, alternatives, ejsData } = mailData.body;
             const { body, ...maildataContent } = mailData;
-            await ImageService_1.ImageService.validateSizeLimit(attachments);
+            ImageService_1.ImageService.validateSizeLimit(attachments);
             const smtp = {
                 host: options.host,
                 port: options.port,
@@ -44,10 +45,11 @@ class EjsNodemailer {
                         };
                         break;
                     case 'ejs':
+                        const ejs = await EjsService_1.EjsService.compilerToHtml(content, ejsData);
                         newMailData = {
                             ...maildataContent,
                             text,
-                            html: content,
+                            html: ejs,
                             attachments,
                             alternatives
                         };

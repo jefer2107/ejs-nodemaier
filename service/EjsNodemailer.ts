@@ -1,6 +1,7 @@
 import { MailData, OptionsSendMailConfig, OptionsTransportConfig } from "../types";
 import nodemailer from 'nodemailer';
 import { ImageService } from "./ImageService";
+import { EjsService } from "./EjsService";
 
 export abstract class EjsNodemailer{
 
@@ -18,10 +19,10 @@ export abstract class EjsNodemailer{
     static async sendMail(options: OptionsSendMailConfig, mailData: MailData): Promise<string> {
         try {
             let newMailData;
-            const { type, content, attachments , text, alternatives } = mailData.body
+            const { type, content, attachments , text, alternatives, ejsData } = mailData.body
             const { body, ...maildataContent } = mailData
 
-            await ImageService.validateSizeLimit(attachments)
+            ImageService.validateSizeLimit(attachments)
 
             const smtp = {
                 host: options.host,
@@ -38,7 +39,7 @@ export abstract class EjsNodemailer{
             if(transporter){
                 switch(type){
                     case 'html':
-                        
+
                         newMailData = {
                             ...maildataContent,
                             text,
@@ -49,10 +50,12 @@ export abstract class EjsNodemailer{
                         break
 
                     case 'ejs':
+                        const ejs = await EjsService.compilerToHtml(content, ejsData)
+
                         newMailData = {
                             ...maildataContent,
                             text,
-                            html: content,
+                            html: ejs,
                             attachments,
                             alternatives
                         }

@@ -2,7 +2,7 @@ import ejs from 'ejs'
 
 export abstract class EjsService{
 
-    static async compilerForHtml(ejsContent:string, data:any): Promise<string>{
+    static async compilerToHtml(ejsContent:string | undefined, data:any): Promise<string>{
         return new Promise((res,rej)=>{
             if(!ejsContent) return rej('ejsTemplate not exists.') 
     

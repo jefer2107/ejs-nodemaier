@@ -1,12 +1,12 @@
 import { Attachment } from "../types";
 import fs from 'fs'
-import path from 'path'
+import pathNode from 'path'
 
 export abstract class ImageService{
 
     private static async bufferBuild(filePath:string): Promise<any>{
         return new Promise((res,rej)=>{
-            fs.readFile(path.join(filePath),(erro,buffer)=>{
+            fs.readFile(pathNode.join(filePath),(erro,buffer)=>{
                 if(erro){
                     return rej(erro)
                     
@@ -52,7 +52,7 @@ export abstract class ImageService{
             if(Buffer.isBuffer(content) && content.toString().length >= 2000000){
                 throw new Error('The file buffer exceeds the allowed size.')
 
-            }else if(path && path.extname(path) === '.pdf'){
+            }else if(path && pathNode.extname(path) === '.pdf'){
                 if(fs.statSync(path)['size'] >= 1000000)
                 throw new Error(`The filePath:"${path}" exceeds the allowed size.`)
 

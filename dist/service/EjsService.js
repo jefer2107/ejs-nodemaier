@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EjsService = void 0;
 const ejs_1 = __importDefault(require("ejs"));
 class EjsService {
-    static async compilerForHtml(ejsContent, data) {
+    static async compilerToHtml(ejsContent, data) {
         return new Promise((res, rej) => {
             if (!ejsContent)
                 return rej('ejsTemplate not exists.');
