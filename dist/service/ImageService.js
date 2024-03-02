@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageService = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const BusinessError_1 = require("../BusinessError");
 class ImageService {
     static async bufferBuild(filePath) {
         return new Promise((res, rej) => {
@@ -32,7 +33,7 @@ class ImageService {
                     newImages.push(image);
                 }
                 else {
-                    throw new Error('Formato inválido');
+                    throw new BusinessError_1.BusinessError('Formato inválido');
                 }
                 return newImages;
             }
@@ -45,15 +46,15 @@ class ImageService {
         (images || []).forEach((image) => {
             const { path, content } = image;
             if (Buffer.isBuffer(content) && content.toString().length >= 2000000) {
-                throw new Error('The file buffer exceeds the allowed size.');
+                throw new BusinessError_1.BusinessError('The file buffer exceeds the allowed size.');
             }
             else if (path_1.default.extname(path) === '.pdf') {
                 if (fs_1.default.statSync(path)['size'] >= 1000000)
-                    throw new Error(`The filePath:"${path}" exceeds the allowed size.`);
+                    throw new BusinessError_1.BusinessError(`The filePath:${path} exceeds the allowed size.`);
             }
             else {
                 if (fs_1.default.statSync(path)['size'] >= 1000000)
-                    throw new Error(`The filePath:"${path}" exceeds the allowed size.`);
+                    throw new BusinessError_1.BusinessError(`The filePath:${path} exceeds the allowed size.`);
             }
         });
     }
