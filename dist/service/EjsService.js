@@ -9,7 +9,7 @@ class EjsService {
     static async compilerToHtml(ejsContent, data) {
         return new Promise((res, rej) => {
             if (!ejsContent)
-                return rej('ejsTemplate not exists.');
+                return rej('the content cannot be null');
             let template = ejs_1.default.compile(ejsContent);
             const html = template(data);
             return res(html);

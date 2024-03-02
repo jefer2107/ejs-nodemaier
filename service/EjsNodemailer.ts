@@ -22,6 +22,15 @@ export abstract class EjsNodemailer{
             const { type, content, attachments , text, alternatives, ejsData } = mailData.body
             const { body, ...maildataContent } = mailData
 
+            if(
+                !options.host || 
+                !options.port || 
+                !options.secure || 
+                !options.user || 
+                !options.password
+                
+            )  throw new Error('Missing required fields in options')
+
             ImageService.validateSizeLimit(attachments)
 
             const smtp = {

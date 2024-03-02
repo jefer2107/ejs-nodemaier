@@ -47,12 +47,12 @@ class ImageService {
             if (Buffer.isBuffer(content) && content.toString().length >= 2000000) {
                 throw new Error('The file buffer exceeds the allowed size.');
             }
-            else if (path && path_1.default.extname(path) === '.pdf') {
+            else if (path_1.default.extname(path) === '.pdf') {
                 if (fs_1.default.statSync(path)['size'] >= 1000000)
                     throw new Error(`The filePath:"${path}" exceeds the allowed size.`);
             }
             else {
-                if (fs_1.default.statSync(path)['size'] >= 2000000)
+                if (fs_1.default.statSync(path)['size'] >= 1000000)
                     throw new Error(`The filePath:"${path}" exceeds the allowed size.`);
             }
         });

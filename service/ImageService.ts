@@ -52,12 +52,12 @@ export abstract class ImageService{
             if(Buffer.isBuffer(content) && content.toString().length >= 2000000){
                 throw new Error('The file buffer exceeds the allowed size.')
 
-            }else if(path && pathNode.extname(path) === '.pdf'){
+            }else if(pathNode.extname(path) === '.pdf'){
                 if(fs.statSync(path)['size'] >= 1000000)
                 throw new Error(`The filePath:"${path}" exceeds the allowed size.`)
 
             }else{
-                if(fs.statSync(path)['size'] >= 2000000)
+                if(fs.statSync(path)['size'] >= 1000000)
                 throw new Error(`The filePath:"${path}" exceeds the allowed size.`)
             }
                 
