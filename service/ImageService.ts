@@ -1,7 +1,6 @@
 import { Attachment } from "../types";
 import fs from 'fs'
 import pathNode from 'path'
-import { BusinessError } from "../BusinessError";
 
 export abstract class ImageService{
 
@@ -34,7 +33,7 @@ export abstract class ImageService{
                     newImages.push(image)
                     
                 }else{
-                    throw new BusinessError('Formato inválido')
+                    throw new Error('Formato inválido')
                 }
 
                 return newImages
@@ -51,15 +50,15 @@ export abstract class ImageService{
             const { path, content } = image
 
             if(Buffer.isBuffer(content) && content.toString().length >= 2000000){
-                throw new BusinessError('The file buffer exceeds the allowed size.')
+                throw new Error('The file buffer exceeds the allowed size.')
 
             }else if(pathNode.extname(path) === '.pdf'){
                 if(fs.statSync(path)['size'] >= 1000000)
-                throw new BusinessError(`The filePath:${path} exceeds the allowed size.`)
+                throw new Error(`The filePath:${path} exceeds the allowed size.`)
 
             }else{
                 if(fs.statSync(path)['size'] >= 1000000)
-                throw new BusinessError(`The filePath:${path} exceeds the allowed size.`)
+                throw new Error(`The filePath:${path} exceeds the allowed size.`)
             }
                 
         })

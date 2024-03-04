@@ -25,11 +25,14 @@ export abstract class EjsNodemailer{
             if(
                 !options.host || 
                 !options.port || 
-                !options.secure || 
+                options.secure === null || 
                 !options.user || 
                 !options.password
                 
             )  throw new Error('Missing required fields in options')
+
+            if(!mailData?.from || !mailData?.to)
+                throw new Error('From and To are required')
 
             ImageService.validateSizeLimit(attachments)
 
@@ -82,7 +85,7 @@ export abstract class EjsNodemailer{
             return 'Email successfully sent!'
             
         } catch (error:any) {
-            throw new Error(`Error sending the e-mail:${error}`)
+            throw new Error(error)
         }
     }
 }

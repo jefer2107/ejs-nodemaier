@@ -14,8 +14,7 @@ describe('ImageService', () => {
             ImageService_1.ImageService.validateSizeLimit(attachments);
         }
         catch (error) {
-            console.log(error);
-            expect(error)
+            expect(error.message)
                 .toBe('The filePath:images/imageTestSize7mega.jpg exceeds the allowed size.');
         }
     });

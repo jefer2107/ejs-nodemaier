@@ -24,10 +24,12 @@ class EjsNodemailer {
             const { body, ...maildataContent } = mailData;
             if (!options.host ||
                 !options.port ||
-                !options.secure ||
+                options.secure === null ||
                 !options.user ||
                 !options.password)
                 throw new Error('Missing required fields in options');
+            if (!mailData?.from || !mailData?.to)
+                throw new Error('From and To are required');
             ImageService_1.ImageService.validateSizeLimit(attachments);
             const smtp = {
                 host: options.host,
@@ -71,7 +73,7 @@ class EjsNodemailer {
             return 'Email successfully sent!';
         }
         catch (error) {
-            throw new Error(`Error sending the e-mail:${error}`);
+            throw new Error(error);
         }
     }
 }
